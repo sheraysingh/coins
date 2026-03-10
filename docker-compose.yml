@@ -1,0 +1,11 @@
+services:
+  apex-dashboard:
+    build: .
+    container_name: apex-dashboard
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY:-}
+      - COINGECKO_API_KEY=${COINGECKO_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
