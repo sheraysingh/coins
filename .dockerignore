@@ -1,7 +1,0 @@
-.env
-.git
-.claude
-__pycache__
-*.pyc
-logs
-.gitignore

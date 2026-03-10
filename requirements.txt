@@ -1,9 +1,0 @@
-ccxt
-pandas
-ta
-requests
-flask
-python-telegram-bot
-schedule
-python-dotenv
-beautifulsoup4
