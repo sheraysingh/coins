@@ -5,7 +5,8 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+    volumes:
+      - /docker/openclaw-wekw/data/apex-dashboard:/app/data:ro
     environment:
-      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY:-}
       - COINGECKO_API_KEY=${COINGECKO_API_KEY:-}
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}

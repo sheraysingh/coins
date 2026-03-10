@@ -1,5 +1,22 @@
 import { NextResponse } from "next/server";
-import { getChannelInsights, getMarketInsights, getSkoolOpinion } from "@/lib/insights";
+import { readFile } from "fs/promises";
+import { join } from "path";
+import { getMarketInsights, getSkoolOpinion } from "@/lib/insights";
+
+async function getChannelInsightsFromFile(handle: string): Promise<string[]> {
+  try {
+    const dataPath = join(process.cwd(), "data", "youtube.json");
+    const raw = await readFile(dataPath, "utf-8");
+    const data = JSON.parse(raw);
+    const channel = data.channels?.find((c: { handle: string }) => c.handle === handle);
+    if (channel?.insights?.length > 0) {
+      return channel.insights;
+    }
+  } catch {
+    // Fall through to fallback
+  }
+  return ["Channel insights pending — OpenClaw processes data daily at 4 AM ET"];
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -11,7 +28,7 @@ export async function GET(request: Request) {
       if (!handle) {
         return NextResponse.json({ error: "handle required" }, { status: 400 });
       }
-      const insights = await getChannelInsights(handle);
+      const insights = await getChannelInsightsFromFile(handle);
       return NextResponse.json({ insights });
     }
 
